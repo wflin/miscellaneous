@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>示例</title>
+        <link rel="stylesheet" href="../css/style.css" />
+        <link rel="stylesheet" href="../css/editormd.css" />
+        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>示例</h1>
+            </header>
+            <div class="btns">
+                <button id="goto-line-btn">跳转到指定的行</button>
+                <button id="show-btn">显示编辑器</button>
+                <button id="hide-btn">隐藏编辑器</button>
+                <button id="get-md-btn"> 获取编辑器的markdown源文档</button>
+                <button id="get-html-btn">获取解析后存放在Textarea的HTML源码</button>
+                <button id="watch-btn">开启实时预览</button>
+                <button id="unwatch-btn">关闭实时预览</button>
+                <button id="preview-btn">隐藏编辑器部分，只预览HTML</button>
+                <button id="fullscreen-btn">编辑器全屏显示</button>
+                <button id="show-toolbar-btn">显示工具栏</button>
+                <button id="close-toolbar-btn">隐藏工具栏</button>
+                <button id="toc-menu-btn">ToC Dropdown menu</button>
+                <button id="toc-default-btn">ToC default</button>
+            </div>
+            <div id="test-editormd"></div>
+        </div>
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/editormd.min.js"></script>
+        <script type="text/javascript">
+            var testEditor;
+            
+            $(function() {
+                
+                $.get('test.md', function(md){
+                    testEditor = editormd("test-editormd", {
+                        width: "90%",
+                        height: 740,
+                        path : '../lib/',
+                        theme : "dark",
+                        previewTheme : "dark",
+                        editorTheme : "pastel-on-dark",
+                        markdown : md,
+                        codeFold : true,
+                        //syncScrolling : false,
+                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                        searchReplace : true,
+                        //watch : false,                // 关闭实时预览
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                        //toolbar  : false,             //关闭工具栏
+                        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                        emoji : true,
+                        taskList : true,
+                        tocm            : true,         // Using [TOCM]
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             // 开启流程图支持，默认关闭
+                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "./php/upload.php",
+                        onload : function() {
+                            console.log('onload', this);
+                            //this.fullscreen();
+                            //this.unwatch();
+                            //this.watch().fullscreen();
+
+                            //this.setMarkdown("#PHP");
+                            //this.width("100%");
+                            //this.height(480);
+                            //this.resize("100%", 640);
+                        }
+                    });
+                });
+
+                function goLine(line) {
+                    testEditor.gotoLine(90);
+                }
+                
+                $("#goto-line-btn").bind("click", function(){
+                    goLine(90);
+                });
+
+
+                function show() {
+                    testEditor.show();
+                }
+                
+                $("#show-btn").bind('click', function(){
+                    show();
+                });
+
+
+                function hide() {
+                    testEditor.hide();
+                }
+                
+                $("#hide-btn").bind('click', function(){
+                    hide();
+                });
+
+
+                function getMarkdown() {
+                    alert(testEditor.getMarkdown());
+                }
+                
+                $("#get-md-btn").bind('click', function(){
+                    getMarkdown();
+                });
+
+
+                function getHTML() {
+                    alert(testEditor.getHTML());
+                }
+                
+                $("#get-html-btn").bind('click', function() {
+                    getHTML();
+                });
+
+
+                function watch() {
+                    testEditor.watch();
+                }
+                
+                $("#watch-btn").bind('click', function() {
+                    watch();
+                });
+
+
+                function unwatch() {
+                    testEditor.unwatch();
+                }
+                
+                $("#unwatch-btn").bind('click', function() {
+                    unwatch();
+                });              
+
+
+                function previewing() {
+                    testEditor.previewing();
+                }
+
+                $("#preview-btn").bind('click', function() {
+                    previewing();
+                });
+
+
+                function fullscreen() {
+                    testEditor.fullscreen();
+                }
+                
+                $("#fullscreen-btn").bind('click', function() {
+                    fullscreen();
+                });
+
+
+                function showToolbar() {
+                    testEditor.showToolbar();
+                }
+                
+                $("#show-toolbar-btn").bind('click', function() {
+                    showToolbar();
+                });
+
+
+                function hideToolbar() {
+                    testEditor.hideToolbar();
+                }
+                
+                $("#close-toolbar-btn").bind('click', function() {
+                    hideToolbar();
+                });
+
+
+                function tocTitle(title) {
+                    testEditor.config({
+                        tocDropdown   : true,
+                        tocTitle      : title,
+                    });
+                }
+
+                $("#toc-menu-btn").click(function(){
+                    tocTitle("目录 Table of Contents");
+                });
+
+
+                function tocDropdown() {
+                    testEditor.config("tocDropdown", false);
+                }
+
+                $("#toc-default-btn").click(function() {
+                    tocDropdown();
+                });
+            });
+        </script>
+    </body>
+</html>
